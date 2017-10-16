@@ -7,7 +7,7 @@ addons:
 
 # {{ site.title }} :
 
-## [Subject (in french)]
+## [Subject (in french)](subject)
 
 ## [Pre-print](preprint)
 
