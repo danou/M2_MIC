@@ -2,12 +2,12 @@
 permalink: pretty
 
 # About
-title: Schoof`s algorithm
+title: RSAES-OAEP and RSASSA-PSS
 tagline: A Jekyll-based DIY Learning Management System
 authors:
   - name: danou
     url: 'https://danou.github.io/'
-created: 2016
+created: 2017
 license:
   name: MIT license
   shortname: MIT license
