@@ -7,8 +7,8 @@ addons:
 
 # {{ site.title }} :
 
-## [Introduction of RSA](https://github.com/danou/RSA/RSA_Intro)
+## [Introduction of RSA](https://github.com/danou/RSA/tree/master/RSA_Intro)
 
-## [RSAES-OAEP and RSASSA-PSS](https://github.com/danou/RSA/RSA_Protocole)
+## [RSAES-OAEP and RSASSA-PSS](https://github.com/danou/RSA/tree/master/RSA_Protocole)
 
 ## [Sources](https://github.com/danou/RSA/)
