@@ -7,12 +7,8 @@ addons:
 
 # {{ site.title }} :
 
-## [Subject (in french)](subject)
+## [Introduction of RSA](https://github.com/danou/RSA/RSA_Intro)
 
-## [Introduction of RSA](intro)
-
-## [RSAES-OAEP and RSASSA-PSS (Pre-print)](preprint)
-
-## [PDF](rapport/Rapport.pdf)
+## [RSAES-OAEP and RSASSA-PSS](https://github.com/danou/RSA/RSA_Protocole)
 
 ## [Sources](https://github.com/danou/RSA/)
