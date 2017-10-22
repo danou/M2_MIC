@@ -1,0 +1,117 @@
+\documentclass[12pt]{beamer}
+\usetheme{Madrid}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage[T1]{fontenc}
+\usepackage{epsfig}
+\usepackage{wrapfig} %for figures
+\usepackage{xcolor} %for color
+\usepackage{ragged2e}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[Algorithme]{algorithm}
+\usepackage{algorithmic}
+\usepackage{listing}
+\usepackage{hyperref}
+\hypersetup{pdfstartview=XYZ}
+\justifying
+
+% TITRE DU DOCUMENT
+\title[RSAES-OAEP et RSASSA-PSS]{Présentation des protocoles\\ RSAES-OAEP et RSASSA-PSS}
+\subtitle{M2 MIC - Cryptographie asymétrique}
+\author[J. Nekam et D. Resende]{Jérémie Nekam et Daniel Resende}
+\institute[Paris Diderot]{\includegraphics[scale=0.5]{upd.jpg}}
+
+\date{Mardi 24 octobre 2017}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\transwipe
+\frametitle{Sommaire}
+\tableofcontents[pausesections]
+\end{frame}
+
+\AtBeginSection[]
+{
+	\begin{frame}
+	\transwipe
+	\frametitle{Sommaire}
+	\tableofcontents[currentsection, hideothersubsections]
+	\end{frame}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\begin{frame}
+\transwipe
+Deux protocoles pour deux utilisations différentes :
+\begin{description}
+\pause
+\item[RSAES-OAEP] Protocole de chiffrement
+\pause
+\item[RSASSA-PSS] Protocole de signature
+\end{description}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{RSAES-OEAP}
+\subsection{OAEP}
+\begin{frame}
+\transwipe
+Schéma de OAEP
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Utilisation d'OAEP avec RSA}
+\begin{frame}
+\transwipe
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sécurité du protocole}
+\begin{frame}
+\transwipe
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{RSASSA-PSS}
+\subsection{PSS}
+\begin{frame}
+\transwipe
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Utilisation de PSS avec RSA}
+\begin{frame}
+\transwipe
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sécurité du protocole}
+\begin{frame}
+\transwipe
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+\begin{frame}
+\transwipe
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[shrink]
+\frametitle{Bibliographie}
+\nocite{*}
+\bibliographystyle{alpha}
+\bibliography{Bibliographie}
+\end{frame}
+\end{document}
