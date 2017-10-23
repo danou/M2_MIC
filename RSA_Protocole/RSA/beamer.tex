@@ -65,16 +65,42 @@ Deux protocoles pour deux utilisations différentes :
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{RSAES-OEAP}
+\begin{frame}
+\transwipe
+Le protocole RSAES-OAEP se décompose en deux parties :
+\begin{itemize}
+\item EM-OAEP
+\item RSAEP (resp. RSADP) pour le chiffrement (resp. déchiffrement)
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{OAEP}
 \begin{frame}
 \transwipe
-Schéma de OAEP
+\frametitle{Le schéma OAEP standard}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{OAEP.png}
+\caption{OAEP}
+\end{figure}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Utilisation d'OAEP avec RSA}
+\subsection{EM-OAEP : Utilisation d'OAEP avec RSA}
 \begin{frame}
 \transwipe
-
+Entrées du schéma:
+\begin{description}
+\item[Hash] Données spécifiant la fonction de hachage
+\item[M] Message
+\item[PS] Padding
+\item[Seed] Aléa
+\end{description}
+\frametitle{Le schéma EM-OAEP}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.38]{EM-OAEP.png}
+\caption{OAEP}
+\end{figure}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Sécurité du protocole}
@@ -112,6 +138,6 @@ Schéma de OAEP
 \frametitle{Bibliographie}
 \nocite{*}
 \bibliographystyle{alpha}
-\bibliography{Bibliographie}
+\bibliography{Bibliography}
 \end{frame}
 \end{document}
