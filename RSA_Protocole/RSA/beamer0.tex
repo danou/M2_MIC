@@ -100,12 +100,16 @@
 \begin{frame}
 \frametitle{Introduction}
 \transwipe
-Deux protocoles pour deux utilisations différentes :
+Deux protocoles pour deux utilisations différentes développés par M. Bellare et P. Rogaway :
 \begin{description}
 \pause
-\item[RSAES-OAEP] Protocole de chiffrement/déchiffrement
+\item[Chiffrement/déchiffrement :]\\ 
+
+RSAES-OAEP (RSA Encryption Scheme Optimal Asymmetric Encryption Padding),
 \pause
-\item[RSASSA-PSS] Protocole de signature
+\item[Signature :]\\
+
+RSASSA-PSS (RSASSA Probabilistic Signature Scheme).
 \end{description}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -140,7 +144,7 @@ On note \struct{$EB = 00\parallel 02\parallel Padding\parallel 00\parallel M$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{RSAES-OAEP}
 \begin{frame}
-\framtitle{Protocole RSAES-OAEP}
+\frametitle{Protocole RSAES-OAEP}
 \transwipe
 Le protocole RSAES-OAEP se décompose en trois parties :
 \pause
@@ -233,7 +237,7 @@ On dit qu'un protocole est sémantiquement sûr \structure{si l'attaquant ne peut 
 \frametitle{Attaque de Shoup \cite{SHO2001}}
 \transwipe
 \begin{proposition}
-	Le protocole f-OAEP n'est pas totalement sémantiquement sûr. 
+	Le protocole OAEP n'est pas totalement sémantiquement sûr. 
 \end{proposition}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -247,7 +251,7 @@ On dit que $f$ est \structure{xor-malléable}, si on a une probabilité non-néglig
 \pause
 
 \begin{theoreme}
-S'il existe un schéma xor-malléable alors il existe un permutation à sens-unique avec trappe qui tel que lorsqu'on utilise OEAP le schéma de chiffrement qui en résulte n'est pas sûr dans un modèle d'oracle aléatoire.
+S'il existe un schéma xor-malléable alors il existe une permutation à sens-unique avec trappe, telle que lorsqu'on utilise OEAP le schéma de chiffrement qui en résulte n'est pas sûr dans un modèle d'oracle aléatoire.
 \end{theoreme}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -256,7 +260,7 @@ Soit $f_{0}$ xor-malléable sur $k_{0}$ bits.
 Soit un \textit{A} algorithme qui calcule $f_{0}(t\oplus \delta)$ à partir de $(f_{0}, f_{0}(t), \delta)$.\\
 Soit $f$ telle que $f(s\parallel t) = s\parallel f(t)$ une permutation à sens-unique avec trappe où $s\in \lbrace 0,1\rbrace^{n + k_{1}}$ et $t\in \lbrace 0,1\rbrace^{k_{0}}$.\\
 On pose que le schéma OAEP utilise $f$.\\
-L'attaquant reçoit le chalenge $y'$ , il peux l'écrire tel que $y' = s'\parallel f_{0}(t')$.\\
+L'attaquant reçoit le chalenge $y'$ , il peut l'écrire tel que $y' = s'\parallel f_{0}(t')$.\\
 L'attaquant choisi un message arbitraire différent de zéro $\Delta$ tel que :
 \begin{array}{rcl}
 $s$ &=& $s' \oplus (\delta\parallel 0^{k_{1}})$\\
@@ -275,20 +279,21 @@ $z$ &=& $G(r)\oplus s$\\
     &=& $(x'\oplus \delta)\parallel 0^{k_{1}}$\\
 \end{array}
 \\
-Si l'attaquant déchiffre $y$ à l'aide d'un oracle aléatoire, alors il a $x$. Et peux donc calculer $x'$.
+Si l'attaquant déchiffre $y$ à l'aide d'un oracle aléatoire, alors il obtient $x$.\\
+Et il peut donc calculer $x'$.
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{Idées de preuve pour l'attaque de Shoup \cite{SHO2001}}
 \transwipe
 \begin{theoreme}
-Il existe un oracle aléatoire tel que une permutation à sens-unique avec trappe existe.
+Il existe un oracle aléatoire tel qu'une permutation à sens-unique avec trappe existe.
 \end{theoreme}
 
 La deux théorèmes précédents nous donnent le corollaire suivant :
 
 \begin{corollaire}
-Il existe un oracle aléatoire tel que la construction d'OAEP n'est pas sûr.
+Il existe un oracle aléatoire tel que la construction d'OAEP n'est pas sémantiquement sûr.
 \end{corollaire}
 \end{frame}
 
@@ -305,7 +310,7 @@ Il existe un oracle aléatoire tel que la construction d'OAEP n'est pas sûr.
 \end{proposition}
 \pause
 \begin{exemple}
-Pour une clés de 1024 bits, la complexité de la réduction est de $2^{40}$.
+Pour une clé de 1024 bits, la complexité de la réduction est de $2^{40}$.
 \end{exemple}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -322,8 +327,8 @@ RSASSA-PSS est un protocole de signature et de vérification d'un message chiffré
 
 Le Protocole se décompose en :
 \begin{itemize}
-\item Le codage EMSA-PSS
-\item Puis la signature RSA en 3 parties 
+\item un codage EMSA-PSS,
+\item une signature RSA en 3 parties. 
 \end{itemize}
 
 \end{block}
@@ -334,8 +339,12 @@ Le Protocole se décompose en :
 \begin{frame}
 \frametitle{EMSA-PSS}
 \transwipe
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.4]{EMSA-PSS.png}
+\caption{EMSA-PSS}
+\end{figure}
 
-\includegraphics[scale=0.4]{EMSA-PSS}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -343,9 +352,9 @@ Le Protocole se décompose en :
 \begin{block}{}
 Elle se déroule en 3 parties à l'aide de 3 fonctions que nous allons expliquer 
  \begin{itemize}
-\item OS2IP
-\item RSASP1
-\item I2OSP
+\item OS2IP,
+\item RSASP1,
+\item I2OSP.
 \end{itemize}
 \end{block}
 
@@ -353,8 +362,8 @@ Elle se déroule en 3 parties à l'aide de 3 fonctions que nous allons expliquer
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle {Vérification}
-\begin{block}{RSASSA-PSS - Verify}
-Elle  prend en argument la clé public du signataire , le message signé , et sa signature 
+\begin{block}{RSASSA-PSS-$Verify$}
+Elle  prend en argument la clé public du signataire, le message signé, et sa signature. 
 \end{block}
 \begin{algorithm}[H]
 \caption{RSASSA-PSS-$verify$}
@@ -366,7 +375,7 @@ Elle  prend en argument la clé public du signataire , le message signé , et sa s
     \RETURN $Signature$ $invalide$
 \ENDIF
 \STATE  $s$ = OS2IP($S$) 
-\STATE $m$ = RSAVP1(($n$,$e$),$s$) ;
+\STATE $m$ = RSAVP1(($n$,$e$),$s$);
 \STATE $EM$ = I2SOP($m$ , $emlen$) ou $emlem$ = ($taille de n en bit$-1)/8
 \IF {EMSA-PSS-$verify$($EM$,$M$,$tailleden en bit$ -1) = "Consitent"}
 \RETURN $Signature$ $Valide$
@@ -380,8 +389,11 @@ Elle  prend en argument la clé public du signataire , le message signé , et sa s
 \begin{frame}
 \frametitle{EMSA-PSS-$verify$}
 \transwipe
-
-\includegraphics[scale=0.4]{RSASSA-PSS_verify}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.4]{RSASSA-PSS_verify.png}
+\caption{RSASSA-PSS-$verify$}
+\end{figure}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Sécurité du protocole}
@@ -396,13 +408,11 @@ La sécurité de ce schéma de Signature comparé autre schéma réside sur le fait qu
 \begin{frame}
 \frametitle{Conclusion/Recommandation}
 \transwipe
+Les deux protocoles ont une sécurité sémantique partielle.
 \begin{description}
-\item[OAEP] Il est préférable de plus utiliser OAEP, et plutôt REACT ou d'autres protocoles de PKCS $\#1.5$.
+\item[OAEP] Il est préférable de ne plus utiliser OAEP, et plutôt REACT ou d'autres protocoles de PKCS $\#1.5$,
 \item[PSS] L'algorithme est encore utilisé.
-
-\item[] De plus, ils ont une sécurité sémantique partielle 
-
-\end{description}
+\end{description} 
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
