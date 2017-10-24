@@ -1,0 +1,350 @@
+\documentclass[10pt]{beamer}
+%%%%%%%%%% Beamer 
+%\usepackage{beamerthemesplit}
+%\useoutertheme{infolines}
+% \useinnertheme{default}
+%\useoutertheme{shadow}
+% \usepackage{float,tabls}
+% \usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+ \usepackage[francais]{babel}
+% \usepackage{color}
+\usepackage{amsfonts,amssymb,amsthm,amsmath}
+\usepackage{graphics,graphicx}
+\usepackage{aeguill}
+%\usepackage{bbm}
+\usepackage{url}
+\usefonttheme[onlymath]{serif}
+\usepackage{dsfont}
+\usepackage{ulem}
+\usepackage{stmaryrd}
+%\usepackage{mathabx}
+% \usepackage{extsizes}
+\usepackage[Algorithme]{algorithm}
+\usepackage{algorithmic}
+\usepackage{listing}
+
+\theoremstyle{plain}
+\newtheorem{theoreme}{{Théorème}}[section] 
+\newtheorem*{theoreme*}{{Théorème}}
+\newtheorem{proposition}[theoreme]{Proposition}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{corollaire}[theoreme]{Corollaire}
+\newtheorem*{corollaire*}{Corollaire}
+\newtheorem{lemme}[theoreme]{Lemme}
+\newtheorem*{lemme*}{Lemme}
+
+\theoremstyle{definition}
+%\newtheorem{definition}[theoreme]{Définition}
+\newtheorem*{definition*}{Définition}
+
+\theoremstyle{remark}
+\newtheorem*{remarque*}{Remarque}
+\newtheorem{remarque}[theoreme]{Remarque}
+\newtheorem{exemple}[theoreme]{Exemple}
+\newtheorem*{exemple*}{Exemple}
+\newtheorem{exemples}[theoreme]{Exemples}
+\newtheorem*{exemples*}{Exemples}
+
+\newcommand{\comm}[1] {{\bf (#1)}}
+\newcommand{\commm}[1]{{}}
+
+
+% Alphabet grec
+\renewcommand{\a}{\alpha}\renewcommand{\b}{\beta}\newcommand{\g}{\gamma}\newcommand{\G}{\Gamma}\renewcommand{\d}{\delta}\newcommand{\D}{\Delta}\newcommand{\e}{\varepsilon}\newcommand{\eps}{\epsilon}\newcommand{\z}{\zeta} \newcommand{\y}{\eta}\renewcommand{\th}{\theta}\newcommand{\Th}{\Theta}\renewcommand{\i}{\iota}\renewcommand{\k}{\kappa}\newcommand{\vk}{\varkappa}\renewcommand{\l}{\lambda}\renewcommand{\L}{\Lambda}\newcommand{\m}{\mu}\newcommand{\n}{\nu}\newcommand{\x}{\xi}\newcommand{\X}{\Xi}\newcommand{\s}{\sigma}\renewcommand{\SS}{\Sigma}\renewcommand{\t}{\tau}\newcommand{\f}{\varphi}\newcommand{\vf}{\phi}\newcommand{\h}{\chi}\newcommand{\p}{\psi}\renewcommand{\P}{\Psi}\renewcommand{\o}{\omega}\renewcommand{\O}{\Omega}
+
+\newcommand{\R}{\mathbb{R}}	\newcommand{\Q}{\mathbb{Q}}	\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}	\newcommand{\Z}{\mathbb{Z}}
+
+
+\setbeamertemplate{navigation symbols}{% Permet de choisir les icones de navigation en bas du transparent
+% \insertslidenavigationsymbol
+% \insertframenavigationsymbol
+% \insertsubsectionnavigationsymbol
+% \insertsectionnavigationsymbol
+% \insertdocnavigationsymbol
+% \insertbackfindforwardnavigationsymbol
+}
+
+% TITRE DU DOCUMENT
+\title[RSAES-OAEP et RSASSA-PSS]{Présentation des protocoles\\ RSAES-OAEP et RSASSA-PSS}
+\subtitle{M2 MIC - Cryptographie asymétrique}
+\author[J. Nekam et D. Resende]{Jérémie Nekam et Daniel Resende}
+\institute[Paris Diderot]{\includegraphics[scale=0.5]{upd.jpg}}
+\date{Mardi 24 octobre 2017}
+
+\usetheme{Madrid}
+\justifying
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\transwipe
+\frametitle{Sommaire}
+\tableofcontents[pausesections]
+\end{frame}
+
+\AtBeginSection[]
+{
+	\begin{frame}
+	\transwipe
+	\frametitle{Sommaire}
+	\tableofcontents[currentsection, hideothersubsections]
+	\end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\begin{frame}
+\frametitle{Introduction}
+\transwipe
+Deux protocoles pour deux utilisations différentes :
+\begin{description}
+\pause
+\item[RSAES-OAEP] Protocole de chiffrement/déchiffrement
+\pause
+\item[RSASSA-PSS] Protocole de signature
+\end{description}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\transwipe
+\frametitle{Pourquoi utiliser OAEP ?}
+D. Bleichembacher a trouvé une \structure{attaque CCA-2} sur le protocole suivant :
+\pause
+\begin{definition}[PKCS 1 v1]
+Soit $M$ le message à chiffrer.
+On note \struct{$EB = 00\parallel 02\parallel Padding\parallel 00\parallel M$}
+\end{definition}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{OAEP}
+\begin{frame}
+\transwipe
+\frametitle{Le schéma OAEP standard}
+\begin{algorithm}[H]
+\caption{Schéma OAEP}
+\label{oaep}
+\begin{algorithmic} 
+\REQUIRE Un message $m$, un aléa $r$ et deux oracles $G$ et $H$.
+\ENSURE Un message $m'$ tel que $m' = s\parallel t$.
+\end{algorithmic}
+\end{algorithm}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{OAEP.png}
+\caption{OAEP}
+\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{RSAES-OAEP}
+\begin{frame}
+\framtitle{Protocole RSAES-OAEP}
+\transwipe
+Le protocole RSAES-OAEP se décompose en trois parties :
+\pause
+\begin{itemize}
+\item La génération des clés,
+\pause
+\item Le schéma EM-OAEP,
+\pause
+\item La primitive RSAEP (resp. RSADP) pour le chiffrement (resp. déchiffrement).
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Génération des clés RAES-OAEP}
+\begin{frame}
+\frametitle{Génération des clés RAES-OAEP}
+\transwipe
+\begin{block}{Clés publiques}
+On garde les mêmes clés \structure{$(n, e)$} avec les mêmes propriétés que le RSA classique.
+\end{block}
+\pause
+\begin{block}{Clés privées}	
+\begin{itemize}
+	\item soit \structure{$(p, q, d)$} tel que $e\cdot d = 1\ mod\ (ppcm(p - 1, q - 1))$,
+	\pause
+	\item soit \structure{$(p, q, dP, dQ, qInv)$} où $q\cdot qInv = 1\ mod\ p$, $e\cdot dP = 1\ mod\ q$ et $e\cdot dP = 1\ mod\ q$.
+	\end{itemize}
+\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Utilisation d'OAEP avec RSA}
+\begin{frame}
+\transwipe
+\begin{algorithm}[H]
+\caption{Schéma EM-OAEP}
+\label{oaep}
+\begin{algorithmic} 
+\REQUIRE Un message $m$, un aléa $seed$ et $Hash$ des données spécifiant la fonction de hachage à utiliser
+\ENSURE Un message $EM$.
+\end{algorithmic}
+\end{algorithm}
+\frametitle{Le schéma EM-OAEP}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.35]{EM-OAEP.png}
+\caption{EM-OAEP}
+\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Chiffrement/déchiffrement de RAES-OAEP}
+\begin{frame}
+\frametitle{Chiffrement/déchiffrement de RAES-OAEP}
+\transwipe
+\begin{block}{RSAEP - Chiffrement}
+On garde les mêmes paramètres et propriétés que le RSA classique.
+\end{block}
+\pause
+\begin{algorithm}[H]
+\caption{RSADP - Déchiffrement}
+\label{rsadp}
+\begin{algorithmic} 
+\REQUIRE Un message chiffré $c$ et une clé privé $K = (n, p, q, d)$ ou $(p, q, dP, dQ, qInv)$. 
+\ENSURE Un message clair $m$
+\IF{$c$ n'est pas une entrée valide} 
+    \RETURN ERREUR
+\ENDIF
+\IF{$K = (n, p, q, d)$}
+	\RETURN $m = c^{d}\ mod\ n$
+\ENDIF
+\STATE $m_{1} = c^{dP}\ mod\ p$
+\STATE $m_{2} = c^{dQ}\ mod\ q$
+\STATE $h = (m_{1} - m_{2})\cdot qInv\ mod p$
+\RETURN $m = m_{2} + q\cdot h$
+
+\end{algorithmic}
+\end{algorithm}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sécurité du protocole}
+\begin{frame}
+\frametitle{Sécurité du protocole}
+\transwipe
+\begin{definition}[Sécurité sémantique]
+Soit $m_{0}, m_{1}$ deux messages choisies par l'attaquant.
+Soit $c$ un challenge qui est le chiffré de $m_{0}$ ou $m_{1}$.\\
+On dit qu'un protocole est sémantiquement sûr \structure{si l'attaquant ne peut pas distinguer $m_{0}$ ou $m_{1}$}.
+\end{definition}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Attaque de Shoup \cite{SHO2001}}
+\transwipe
+\begin{proposition}
+	Le protocole f-OAEP n'est pas totalement sémantiquement sûr. 
+\end{proposition}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Idées de preuve pour l'attaque de Shoup \cite{SHO2001}}
+\transwipe
+\begin{definition}[Xor-malléable]
+Soit $f$ une permutation à sens unique avec trappe.
+On dit que $f$ est \structure{xor-malléable}, si on a une probabilité non-négligeable de pouvoir calculer $f(t\oplus a)$ en connaissant $f(t)$ et $a$.
+\end{definition}
+\pause
+
+\begin{theoreme}
+S'il existe un schéma xor-malléable alors il existe un permutation à sens-unique avec trappe qui tel que lorsqu'on utilise OEAP le schéma de chiffrement qui en résulte n'est pas sûr dans un modèle d'oracle aléatoire.
+\end{theoreme}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[shrink]
+Soit $f_{0}$ xor-malléable sur $k_{0}$ bits.
+Soit un \textit{A} algorithme qui calcule $f_{0}(t\oplus \delta)$ à partir de $(f_{0}, f_{0}(t), \delta)$.\\
+Soit $f$ telle que $f(s\parallel t) = s\parallel f(t)$ une permutation à sens-unique avec trappe où $s\in \lbrace 0,1\rbrace^{n + k_{1}}$ et $t\in \lbrace 0,1\rbrace^{k_{0}}$.\\
+On pose que le schéma OAEP utilise $f$.\\
+L'attaquant reçoit le chalenge $y'$ , il peux l'écrire tel que $y' = s'\parallel f_{0}(t')$.\\
+L'attaquant choisi un message arbitraire différent de zéro $\Delta$ tel que :
+\begin{array}{rcl}
+$s$ &=& $s' \oplus (\delta\parallel 0^{k_{1}})$\\
+$v$ &=& $\textit{A}(f_{0}, f_{0}(t'), H(s)\oplus H(s'))$\\
+$y$ &=& $s\parallel v$\\
+\end{array}
+\\
+Si $y$ est un chiffrement valide de $x = x'\oplus (\delta \paralle 0^{k_{1}})$$ et $v = f_{0}(t'\oplus H(s)\oplus H(s'))$.
+\begin{array}{rcl}
+$t$ &=& $t'\oplus H(s')\oplus H(s)$\\
+$r$ &=& $H(s)\oplus t$\\
+    &=& $H(s')\oplus t'$\\
+    &=& $r'$\\
+$z$ &=& $G(r)\oplus s$\\
+    &=& $G(r)\oplus s' \oplus (\delta \paralle 0^{k_{1}})$\\
+    &=& $(x'\oplus \delta)\parallel 0^{k_{1}}$\\
+\end{array}
+\\
+Si l'attaquant déchiffre $y$ à l'aide d'un oracle aléatoire, alors il a $x$. Et peux donc calculer $x'$.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Idées de preuve pour l'attaque de Shoup \cite{SHO2001}}
+\transwipe
+\begin{theoreme}
+Il existe un oracle aléatoire tel que une permutation à sens-unique avec trappe existe.
+\end{theoreme}
+
+La deux théorèmes précédents nous donnent le corollaire suivant :
+
+\begin{corollaire}
+Il existe un oracle aléatoire tel que la construction d'OAEP n'est pas sûr.
+\end{corollaire}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Réduction de RSA-OAEP}
+\transwipe
+\begin{proposition}[\cite{FUJ2000}]
+\begin{enumerate}
+\item Le problème d'inverser partiellement la fonction RSA se réduit au problème de sécurité de RSA-OAEP en complexité (en temps) quadratique.
+\pause
+\item Le problème d'inverser complètement la fonction RSA se réduit au problème d'inverser partiellement la fonction RSA en complexité (en temps) quadratique.
+\end{enumerate}
+\end{proposition}
+\pause
+\begin{exemple}
+Pour une clés de 1024 bits, la complexité de la réduction est de $2^{40}$.
+\end{exemple}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{RSASSA-PSS}
+\subsection{PSS}
+\begin{frame}
+\transwipe
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Utilisation de PSS avec RSA}
+\begin{frame}
+\transwipe
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sécurité du protocole}
+\begin{frame}
+\transwipe
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion/Recommandation}
+\begin{frame}
+\transwipe
+\begin{description}
+\item[OAEP] Il est préférable de plus utiliser OAEP, et plutôt REACT.
+\item[PSS]
+\end{description}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[shrink]
+\frametitle{Bibliographie}
+\nocite{*}
+\bibliographystyle{alpha}
+\bibliography{Bibliography}
+\end{frame}
+
+
+\end{document}
