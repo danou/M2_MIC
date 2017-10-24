@@ -114,13 +114,12 @@ Deux protocoles pour deux utilisations différentes :
 \frametitle{Pourquoi utiliser OAEP ?}
 D. Bleichembacher a trouvé une \structure{attaque CCA-2} sur le protocole suivant :
 \pause
-\begin{definition}[PKCS 1 v1]
+\begin{definition}[PKCS \#1 v1]
 Soit $M$ le message à chiffrer.
 On note \struct{$EB = 00\parallel 02\parallel Padding\parallel 00\parallel M$}
 \end{definition}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{OAEP}
 \begin{frame}
 \transwipe
 \frametitle{Le schéma OAEP standard}
@@ -313,28 +312,96 @@ Pour une clés de 1024 bits, la complexité de la réduction est de $2^{40}$.
 \section{RSASSA-PSS}
 \subsection{PSS}
 \begin{frame}
+\frametitle{Introduction}
 \transwipe
+\begin{block}{RSASSA-PSS}
+
+RSASSA-PSS est un protocole de signature et de vérification d'un message chiffré par une clé publique RSA .
+\end{block}
+\begin{block}{Fonctionnement}
+
+Le Protocole se décompose en :
+\begin{itemize}
+\item Le codage EMSA-PSS
+\item Puis la signature RSA en 3 parties 
+\end{itemize}
+
+\end{block}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Utilisation de PSS avec RSA}
 \begin{frame}
+\frametitle{EMSA-PSS}
 \transwipe
 
+\includegraphics[scale=0.4]{EMSA-PSS}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Signature RSA}
+\begin{block}{}
+Elle se déroule en 3 parties à l'aide de 3 fonctions que nous allons expliquer 
+ \begin{itemize}
+\item OS2IP
+\item RSASP1
+\item I2OSP
+\end{itemize}
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle {Vérification}
+\begin{block}{RSASSA-PSS - Verify}
+Elle  prend en argument la clé public du signataire , le message signé , et sa signature 
+\end{block}
+\begin{algorithm}[H]
+\caption{RSASSA-PSS-$verify$}
+\label{rsassa pss verify}
+\begin{algorithmic} 
+\REQUIRE Un message signé $M$ et une clé public  $K = (n, e)$ et une signature $S$ .
+\ENSURE $Signature Validé $ ou $Signature invalidé$ .
+\IF{si la taille de $S$ n'est pas $k$ octets } 
+    \RETURN $Signature$ $invalide$
+\ENDIF
+\STATE  $s$ = OS2IP($S$) 
+\STATE $m$ = RSAVP1(($n$,$e$),$s$) ;
+\STATE $EM$ = I2SOP($m$ , $emlen$) ou $emlem$ = ($taille de n en bit$-1)/8
+\IF {EMSA-PSS-$verify$($EM$,$M$,$tailleden en bit$ -1) = "Consitent"}
+\RETURN $Signature$ $Valide$
+
+\RETURN $Signature$ $invalide$
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{EMSA-PSS-$verify$}
+\transwipe
+
+\includegraphics[scale=0.4]{RSASSA-PSS_verify}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Sécurité du protocole}
 \begin{frame}
 \transwipe
-
+\begin{block}{Sécurité}
+La sécurité de ce schéma de Signature comparé autre schéma réside sur le fait qu'il soit probabiliste plutôt que déterministe grâce à la génération aléatoire de $Salt$.  
+\end{block}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusion/Recommandation}
+\section{Conclusion et Recommandation}
 \begin{frame}
+\frametitle{Conclusion/Recommandation}
 \transwipe
 \begin{description}
-\item[OAEP] Il est préférable de plus utiliser OAEP, et plutôt REACT.
-\item[PSS]
+\item[OAEP] Il est préférable de plus utiliser OAEP, et plutôt REACT ou d'autres protocoles de PKCS $\#1.5$.
+\item[PSS] L'algorithme est encore utilisé.
+
+\item[] De plus, ils ont une sécurité sémantique partielle 
+
 \end{description}
 
 \end{frame}
